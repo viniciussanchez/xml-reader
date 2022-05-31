@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<developer mvp="true">
+   <firstName>Vinicius</firstName>
+   <lastName>Sanchez</lastName>
+   <age />
+   <projects>
+      <Boss>yes</Boss>
+      <DataSet-Serialize>yes</DataSet-Serialize>
+      <RESTRequest4Delphi>yes</RESTRequest4Delphi>
+      <BCrypt>yes</BCrypt>
+      <Horse>yes</Horse>
+   </projects>
+</developer>
