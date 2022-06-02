@@ -1,9 +1,17 @@
 unit Xml.Reader.Node;
 
+{$IF DEFINED(FPC)}
+  {$MODE DELPHI}{$H+}
+{$ENDIF}
+
 interface
 
 uses Xml.Reader.Node.Intf, Xml.Reader.Attribute.Intf, Xml.Reader.Element.Intf,
+{$IF DEFINED(FPC)}
+  Generics.Collections;
+{$ELSE}
   System.Generics.Collections;
+{$ENDIF}
 
 type
   TXmlNode = class(TInterfacedObject, IXmlNode)

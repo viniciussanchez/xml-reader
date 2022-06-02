@@ -1,9 +1,17 @@
 unit Xml.Reader;
 
+{$IF DEFINED(FPC)}
+  {$MODE DELPHI}{$H+}
+{$ENDIF}
+
 interface
 
 uses Xml.Reader.Intf, Xml.Reader.Attribute.Intf, Xml.Reader.Element.Intf, Xml.Reader.Node.Intf,
+{$IF DEFINED(FPC)}
+  Classes, Generics.Collections;
+{$ELSE}
   System.Classes, System.Generics.Collections;
+{$ENDIF}
 
 type
   IXmlReader = Xml.Reader.Intf.IXmlReader;
@@ -34,7 +42,11 @@ type
 implementation
 
 uses Xml.Reader.Attribute, Xml.Reader.Element, Xml.Reader.Node,
+{$IF DEFINED(FPC)}
+  SysUtils;
+{$ELSE}
   System.SysUtils;
+{$ENDIF}
 
 { TXmlReader }
 
@@ -180,9 +192,14 @@ begin
   for I := 0 to Pred(AXml.Count) do
   begin
     if AXml[I].StartsWith('</') then
-      Continue;
-    if AXml[I].StartsWith('<?') then
+      Continue
+    else if AXml[I].StartsWith('<?') then
       ReadXmlInfo(AXml[I])
+    else if AXml[I].EndsWith('/>') then
+    begin
+      LLastElement := TXmlElement.New.Name(GetNameXmlValue(AXml[I]));
+      LLastNode.Elements.Add(LLastElement);
+    end
     else if AXml[I].StartsWith('<') and AXml[I].EndsWith('>') then
     begin
       if AXml[Succ(I)].StartsWith('<') then
@@ -190,7 +207,10 @@ begin
         if FNode.Name.Trim.IsEmpty then
           LLastNode := FNode
         else
-          LLastNode := TXmlNode.New;
+        begin
+          LLastNode.Nodes.Add(TXmlNode.New);
+          LLastNode := LLastNode.Nodes.Last;
+        end;
         ParseNode(LLastNode, AXml[I]);
       end
       else
@@ -199,14 +219,8 @@ begin
         LLastNode.Elements.Add(LLastElement);
       end;
     end
-//    else if AXml[I].EndsWith('/>') then
-//    begin
-//      // element without value
-//    end
     else
-    begin
-      // element value
-    end;
+      LLastElement.Value(AXml[I]);
   end;
 end;
 

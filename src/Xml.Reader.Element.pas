@@ -1,5 +1,9 @@
 unit Xml.Reader.Element;
 
+{$IF DEFINED(FPC)}
+  {$MODE DELPHI}{$H+}
+{$ENDIF}
+
 interface
 
 uses Xml.Reader.Element.Intf;
@@ -21,7 +25,12 @@ type
 
 implementation
 
-uses System.Variants, System.SysUtils;
+uses
+{$IF DEFINED(FPC)}
+  Variants, SysUtils;
+{$ELSE}
+  System.Variants, System.SysUtils;
+{$ENDIF}
 
 { TXmlElement }
 

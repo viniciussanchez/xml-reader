@@ -1,17 +1,18 @@
-unit Unit1;
+unit Views.Samples;
+
+{$mode objfpc}{$H+}
 
 interface
 
-uses Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms,
-  Vcl.Dialogs, Xml.Reader, Vcl.StdCtrls;
+uses Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, Xml.Reader;
 
 type
   TFrmSamples = class(TForm)
-    mmXML: TMemo;
-    btnReadString: TButton;
     btnReadFile: TButton;
-    procedure btnReadStringClick(Sender: TObject);
+    btnReadString: TButton;
+    mmXML: TMemo;
     procedure btnReadFileClick(Sender: TObject);
+    procedure btnReadStringClick(Sender: TObject);
   private
     procedure DoPrintElement(const AElement: IXmlElement);
     procedure DoPrintAttribute(const AAttribute: IXmlAttribute);
@@ -24,7 +25,7 @@ var
 
 implementation
 
-{$R *.dfm}
+{$R *.lfm}
 
 const
   XML = '<?xml version="1.0" encoding="UTF-8"?><developer mvp="true"><firstName>Vinicius</firstName>' +
@@ -33,7 +34,7 @@ const
 
 procedure TFrmSamples.btnReadFileClick(Sender: TObject);
 begin
-  Read(TXmlReader.New.LoadFromFile('C:\Users\vinicius.FIORILLI\Downloads\teste\teste.xml'));
+  Read(TXmlReader.New.LoadFromFile('D:\Projetos\delphi\xml-reader\samples\lazarus\teste.xml'));
 end;
 
 procedure TFrmSamples.btnReadStringClick(Sender: TObject);
@@ -41,16 +42,14 @@ begin
   Read(TXmlReader.New.LoadFromString(XML));
 end;
 
-procedure TFrmSamples.DoPrintAttribute(const AAttribute: IXmlAttribute);
-begin
-  mmXML.Lines.Add('Attribute:');
-  mmXML.Lines.Add('Name: ' + AAttribute.Name + ' value: ' + AAttribute.AsString);
-end;
-
 procedure TFrmSamples.DoPrintElement(const AElement: IXmlElement);
 begin
-  mmXML.Lines.Add('Element:');
-  mmXML.Lines.Add('Name: ' + AElement.Name + ' value: ' + AElement.AsString);
+  mmXML.Lines.Add('[Element] Name: ' + AElement.Name + ' value: ' + AElement.AsString);
+end;
+
+procedure TFrmSamples.DoPrintAttribute(const AAttribute: IXmlAttribute);
+begin
+  mmXML.Lines.Add('[Attribute] Name: ' + AAttribute.Name + ' value: ' + AAttribute.AsString);
 end;
 
 procedure TFrmSamples.DoPrintNode(const ANode: IXmlNode);
@@ -59,7 +58,7 @@ var
   LAttribute: IXmlAttribute;
   LNode: IXmlNode;
 begin
-  mmXML.Lines.Add('Node: ' + ANode.Name);
+  mmXML.Lines.Add('[Node] Name: ' + ANode.Name);
 
   for LAttribute in ANode.Attributes do
     DoPrintAttribute(LAttribute);
@@ -79,3 +78,4 @@ begin
 end;
 
 end.
+

@@ -1,5 +1,9 @@
 unit Xml.Reader.Intf;
 
+{$IF DEFINED(FPC)}
+  {$MODE DELPHI}{$H+}
+{$ENDIF}
+
 interface
 
 uses Xml.Reader.Node.Intf;
