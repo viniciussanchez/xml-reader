@@ -34,7 +34,7 @@ const
 
 procedure TFrmSamples.btnReadFileClick(Sender: TObject);
 begin
-  Read(TXmlReader.New.LoadFromFile('D:\Projetos\delphi\xml-reader\samples\lazarus\teste.xml'));
+  Read(TXmlReader.New.LoadFromFile('teste.xml'));
 end;
 
 procedure TFrmSamples.btnReadStringClick(Sender: TObject);

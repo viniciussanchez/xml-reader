@@ -6,6 +6,7 @@ object FrmSamples: TFrmSamples
   Caption = 'Samples'
   ClientHeight = 307
   ClientWidth = 635
+  LCLVersion = '2.2.2.0'
   object mmXML: TMemo
     Left = 24
     Height = 225
