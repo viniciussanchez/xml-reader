@@ -192,7 +192,14 @@ begin
   for I := 0 to Pred(AXml.Count) do
   begin
     if AXml[I].StartsWith('</') then
-      Continue
+    begin
+      if AXml[Pred(I)].StartsWith('<') then
+      begin
+        if Assigned(LLastNode.Owner) then
+          LLastNode := LLastNode.Owner;
+      end;
+      Continue;
+    end
     else if AXml[I].StartsWith('<?') then
       ReadXmlInfo(AXml[I])
     else if AXml[I].EndsWith('/>') then
@@ -208,7 +215,7 @@ begin
           LLastNode := FNode
         else
         begin
-          LLastNode.Nodes.Add(TXmlNode.New);
+          LLastNode.Nodes.Add(TXmlNode.New(LLastNode));
           LLastNode := LLastNode.Nodes.Last;
         end;
         ParseNode(LLastNode, AXml[I]);

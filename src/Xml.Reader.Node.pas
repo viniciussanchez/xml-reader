@@ -17,9 +17,11 @@ type
   TXmlNode = class(TInterfacedObject, IXmlNode)
   private
     FName: string;
+    FOwner: IXmlNode;
     FAttributes: TList<IXmlAttribute>;
     FNodes: TList<IXmlNode>;
     FElements: TList<IXmlElement>;
+    function Owner: IXmlNode;
     function GetAttribute(const AAttributeName: string): IXmlAttribute;
     function GetNode(const ANodeName: string): IXmlNode;
     function GetElement(const AElementName: string): IXmlElement;
@@ -32,8 +34,10 @@ type
     function Name: string; overload;
     function Name(const AName: string): IXmlNode; overload;
   public
-    constructor Create;
-    class function New: IXmlNode;
+    constructor Create; overload;
+    constructor Create(const AOwner: IXmlNode); overload;
+    class function New(const AOwner: IXmlNode): IXmlNode; overload;
+    class function New: IXmlNode; overload;
     destructor Destroy; override;
   end;
 
@@ -87,11 +91,17 @@ begin
   end;
 end;
 
-constructor TXmlNode.Create;
+constructor TXmlNode.Create(const AOwner: IXmlNode);
 begin
+  FOwner := AOwner;
   FAttributes := TList<IXmlAttribute>.Create;
   FNodes := TList<IXmlNode>.Create;
   FElements := TList<IXmlElement>.Create;
+end;
+
+constructor TXmlNode.Create;
+begin
+  Create(nil);
 end;
 
 destructor TXmlNode.Destroy;
@@ -169,6 +179,11 @@ begin
   Result := Self;
 end;
 
+class function TXmlNode.New(const AOwner: IXmlNode): IXmlNode;
+begin
+  Result := TXmlNode.Create(AOwner);
+end;
+
 class function TXmlNode.New: IXmlNode;
 begin
   Result := TXmlNode.Create;
@@ -177,6 +192,11 @@ end;
 function TXmlNode.Nodes: TList<IXmlNode>;
 begin
   Result := FNodes;
+end;
+
+function TXmlNode.Owner: IXmlNode;
+begin
+  Result := FOwner;
 end;
 
 end.

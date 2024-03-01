@@ -16,6 +16,7 @@ uses Xml.Reader.Element.Intf, Xml.Reader.Attribute.Intf,
 type
   IXmlNode = interface
     ['{4E1C725C-EFF4-43AB-820D-C3438A41D140}']
+    function Owner: IXmlNode;
     function GetAttribute(const AAttributeName: string): IXmlAttribute;
     function GetNode(const ANodeName: string): IXmlNode;
     function GetElement(const AElementName: string): IXmlElement;
