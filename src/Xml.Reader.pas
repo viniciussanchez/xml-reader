@@ -36,6 +36,7 @@ type
     function Encoding: string;
   public
     constructor Create;
+    destructor Destroy; override;
     class function New: IXmlReader;
   end;
 
@@ -53,6 +54,14 @@ uses Xml.Reader.Attribute, Xml.Reader.Element, Xml.Reader.Node,
 constructor TXmlReader.Create;
 begin
   FNode := TXmlNode.New;
+end;
+
+destructor TXmlReader.Destroy;
+begin
+  Node.Attributes.Clear;
+  Node.Elements.Clear;
+  Node.Nodes.Clear;
+  inherited;
 end;
 
 function TXmlReader.Encoding: string;
